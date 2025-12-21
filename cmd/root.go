@@ -8,16 +8,11 @@ import (
 	"os"
 
 	"github.com/awe8128/arch-gen/cmd/folder"
+	"github.com/awe8128/arch-gen/config"
+	filesx "github.com/awe8128/arch-gen/fs"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
-// configs
-var (
-	cfgFile string
-)
-
-// rootCmd represents the base command when called without any subcommands
 var (
 	rootCmd = &cobra.Command{
 		Use:   "arch-gen",
@@ -29,8 +24,7 @@ for example:
 		`,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("Hello world")
-			fmt.Println(viper.Get("sys"))
-			fmt.Println(viper.Get("sys.name"))
+			filesx.ReaderYaml()
 		},
 	}
 )
@@ -42,43 +36,10 @@ func Execute() {
 	}
 }
 
-// config + flags mainly
 func init() {
-	cobra.OnInitialize(LoadConfig)
+	cobra.OnInitialize(config.Load)
 
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/arch-gen.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&config.CfgFile, "config", "c", "", "config file (default is $HOME/arch-gen.yaml)")
 
 	rootCmd.AddCommand(folder.GenerateFolderCmd)
-}
-
-type Config struct {
-	Sys Sys `yaml:"sys"`
-}
-
-type Sys struct {
-	Name string `yaml:"name"`
-}
-
-func LoadConfig() {
-
-	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
-	} else {
-		fmt.Println("empty config string")
-		// Find current directory.
-		home, err := os.Getwd()
-		cobra.CheckErr(err)
-
-		viper.AddConfigPath(home)
-		viper.SetConfigName("arch")
-		viper.SetConfigType("yaml")
-	}
-
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println(viper.ReadInConfig().Error())
-	} else {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
-	}
 }

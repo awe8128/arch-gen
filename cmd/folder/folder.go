@@ -1,7 +1,6 @@
 package folder
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -17,7 +16,7 @@ for example DDD
 	/[domain-name]
 `,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Running generate folder structure command")
+
 		},
 	}
 )
@@ -27,8 +26,4 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
-}
-
-func init() {
-
 }
