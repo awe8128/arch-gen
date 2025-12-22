@@ -13,14 +13,6 @@ var (
 	CfgFile string
 )
 
-type Config struct {
-	Sys Sys `yaml:"sys"`
-}
-
-type Sys struct {
-	Name string `yaml:"name"`
-}
-
 func Load() {
 
 	if CfgFile != "" {
@@ -43,4 +35,16 @@ func Load() {
 	} else {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+func Get(s string) {
+
+	// viperCfg := viper.Get("sys")
+	fmt.Println(viper.GetStringMapString("sys"))
+	fmt.Println(viper.GetStringMapString("root1"))
+
+	// fmt.Println(viper.)
+
+	// return subConfigs
+
 }

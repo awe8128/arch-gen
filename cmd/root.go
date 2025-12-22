@@ -4,12 +4,10 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/awe8128/arch-gen/cmd/folder"
 	"github.com/awe8128/arch-gen/config"
-	filesx "github.com/awe8128/arch-gen/fs"
 	"github.com/spf13/cobra"
 )
 
@@ -23,8 +21,8 @@ for example:
 	Layer Architecture 
 		`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Hello world")
-			filesx.ReaderYaml()
+
+			config.Get("root2")
 		},
 	}
 )
@@ -35,6 +33,13 @@ func Execute() {
 		os.Exit(1)
 	}
 }
+
+// root
+// TODO: load config default or custom yaml
+// TODO: fetch all data convert to custom type
+
+// TODO: make sure we can use loaded config from any level
+// ex: config.Get("sys") = map[string]string of sys
 
 func init() {
 	cobra.OnInitialize(config.Load)

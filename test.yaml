@@ -1,5 +1,13 @@
 sys:
-  name:
-    sub-name: oidov
-  sub_name:
-    a: asd
+  root1:
+    sub1: oidov
+    sub2: alex
+  root2:
+    sub: aa
+
+domain:
+  name: user
+  properties:
+    - name
+    - age
+    - email
