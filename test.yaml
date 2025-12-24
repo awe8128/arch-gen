@@ -1,13 +1,28 @@
+pj:
+  name: be
+
 sys:
-  root1:
-    sub1: oidov
-    sub2: alex
-  root2:
-    sub: aa
+  design: ddd
 
 domain:
-  name: user
-  properties:
-    - name
-    - age
-    - email
+  user:
+    properties:
+      - name
+      - age
+      - email
+    repository:
+      - CreateUser
+      - GetUser
+    vo:
+      - email
+      - age
+      - name
+  lead:
+    properties:
+      - name
+      - type
+    repository:
+      - CreateLead
+      - GetLead
+    vo:
+      - type

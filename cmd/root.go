@@ -6,8 +6,10 @@ package cmd
 import (
 	"os"
 
-	"github.com/awe8128/arch-gen/cmd/folder"
+	"github.com/awe8128/arch-gen/cmd/generate"
 	"github.com/awe8128/arch-gen/config"
+	"github.com/awe8128/arch-gen/internal/content"
+	"github.com/awe8128/arch-gen/internal/folder"
 	"github.com/spf13/cobra"
 )
 
@@ -21,8 +23,8 @@ for example:
 	Layer Architecture 
 		`,
 		Run: func(cmd *cobra.Command, args []string) {
-
-			config.Get("root2")
+			folder.CreateFolders()
+			content.CreateEntity("./lead", "alex")
 		},
 	}
 )
@@ -34,17 +36,10 @@ func Execute() {
 	}
 }
 
-// root
-// TODO: load config default or custom yaml
-// TODO: fetch all data convert to custom type
-
-// TODO: make sure we can use loaded config from any level
-// ex: config.Get("sys") = map[string]string of sys
-
 func init() {
 	cobra.OnInitialize(config.Load)
 
 	rootCmd.PersistentFlags().StringVarP(&config.CfgFile, "config", "c", "", "config file (default is $HOME/arch-gen.yaml)")
 
-	rootCmd.AddCommand(folder.GenerateFolderCmd)
+	rootCmd.AddCommand(generate.GenerateFolderCmd)
 }

@@ -36,15 +36,3 @@ func Load() {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
 }
-
-func Get(s string) {
-
-	// viperCfg := viper.Get("sys")
-	fmt.Println(viper.GetStringMapString("sys"))
-	fmt.Println(viper.GetStringMapString("root1"))
-
-	// fmt.Println(viper.)
-
-	// return subConfigs
-
-}

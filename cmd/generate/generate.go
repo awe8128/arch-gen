@@ -1,4 +1,4 @@
-package folder
+package generate
 
 import (
 	"os"
