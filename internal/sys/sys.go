@@ -20,6 +20,31 @@ func Start() {
 	// create folder structure
 	fs.Generate(sys)
 
+	// infra layer
+	for _, layer := range infrastructureLayer {
+		path := filepath.Join(root, "infra", layer)
+		if err := os.MkdirAll(path, 0o755); err != nil {
+			panic(err)
+		}
+
+	}
+
+	// db layer
+	for _, layer := range DBLayer {
+		path := filepath.Join(root, "infra", "db", layer)
+		if err := os.MkdirAll(path, 0o755); err != nil {
+			panic(err)
+		}
+	}
+
+	// generate sqlc
+	path := filepath.Join(root)
+
+	content, filename := generator.SqlcYamlTemplate()
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		panic(err)
+	}
+
 	// domain layer
 	for name, domain := range config.GlobalConfig.Domains {
 		path := filepath.Join(root, "domain", name)
@@ -43,5 +68,23 @@ func Start() {
 		if err := fs.GenerateFile(content, path, filename); err != nil {
 			panic(err)
 		}
+
+		path = filepath.Join(root, "infra", "repository")
+		content, filename = generator.InfraRepositoryTemplate(name,
+			domain.Repositories,
+			domain.Properties,
+		)
+
+		if err := fs.GenerateFile(content, path, filename); err != nil {
+			panic(err)
+		}
+
+		path = filepath.Join(root, "infra", "db")
+		content, filename = generator.StoreTemplate()
+		if err := fs.GenerateFile(content, path, filename); err != nil {
+			panic(err)
+		}
+
 	}
+
 }

@@ -1,0 +1,20 @@
+package user
+
+import "context"
+
+type User struct {
+	Name *string
+	Age  int64
+	Id   uint
+}
+
+func NewUser(ctx context.Context, age int64, id uint, name *string) *User {
+
+	ent := &User{
+		Age:  age,
+		Id:   id,
+		Name: name,
+	}
+
+	return ent
+}
