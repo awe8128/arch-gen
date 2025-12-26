@@ -8,8 +8,8 @@ import (
 
 	"github.com/awe8128/arch-gen/cmd/generate"
 	"github.com/awe8128/arch-gen/config"
-	"github.com/awe8128/arch-gen/internal/content"
-	"github.com/awe8128/arch-gen/internal/folder"
+	"github.com/awe8128/arch-gen/internal/linter"
+	"github.com/awe8128/arch-gen/internal/structure"
 	"github.com/spf13/cobra"
 )
 
@@ -23,8 +23,8 @@ for example:
 	Layer Architecture 
 		`,
 		Run: func(cmd *cobra.Command, args []string) {
-			folder.CreateFolders()
-			content.CreateEntity("./lead", "alex")
+			structure.Start()
+			linter.FormatAndFixImportsDir("./be")
 		},
 	}
 )
