@@ -1,28 +1,40 @@
 pj:
   name: be
+  sys: ddd
 
-sys:
-  design: ddd
-
-domain:
-  user:
+domains:
+  User:
+    type: struct
     properties:
-      - name
-      - age
-      - email
-    repository:
-      - CreateUser
-      - GetUser
-    vo:
-      - email
-      - age
-      - name
-  lead:
+      id:
+        type: uint
+        nullable: false
+      name:
+        type: string
+        nullable: true
+      age:
+        type: int64
+        nullable: false
+    repositories:
+      Create:
+        type: func
+        in:
+          id:
+            type: uint
+            nullable: false
+          name:
+            type: string
+            nullable: true
+        out:
+          name:
+            type: string
+            nullable: true
+          id: 
+            type: uuid.UUID
+            nullable: false
+  Lead:
+    type: struct
     properties:
-      - name
-      - type
-    repository:
-      - CreateLead
-      - GetLead
-    vo:
-      - type
+      id:
+        type: uint
+        nullable: true

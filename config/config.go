@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -13,26 +14,34 @@ var (
 	CfgFile string
 )
 
+var GlobalConfig *Config
+
 func Load() {
 
+	v := viper.New()
+
 	if CfgFile != "" {
-		viper.SetConfigFile(CfgFile)
+		v.SetConfigFile(CfgFile)
 	} else {
 		fmt.Println("empty config string")
+
 		// Find current directory.
 		home, err := os.Getwd()
 		cobra.CheckErr(err)
 
-		viper.AddConfigPath(home)
-		viper.SetConfigName("arch")
-		viper.SetConfigType("yaml")
+		v.AddConfigPath(home)
+		v.SetConfigName("arch")
+		v.SetConfigType("yaml")
 	}
 
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err != nil {
-		fmt.Println(viper.ReadInConfig().Error())
-	} else {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	if err := v.ReadInConfig(); err != nil {
+		fmt.Println("Error reading config:", err)
 	}
+
+	fmt.Println("Using config file:", v.ConfigFileUsed())
+
+	if err := v.Unmarshal(&GlobalConfig); err != nil {
+		log.Fatal("Failed to load config", err)
+	}
+
 }
