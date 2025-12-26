@@ -1,5 +1,0 @@
-package folder
-
-func CreateFolders() {
-
-}

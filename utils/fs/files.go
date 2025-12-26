@@ -1,4 +1,4 @@
-package files
+package fs
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 )
 
-func Generate(content, dir, filename string) error {
-	path := filepath.Join(fmt.Sprintf("./be/%s", dir), filename)
+func GenerateFile(content, dir, filename string) error {
+	path := filepath.Join(fmt.Sprintf("./%s", dir), filename)
 	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
 		return err
 	}
