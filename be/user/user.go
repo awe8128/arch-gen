@@ -3,11 +3,18 @@ package user
 import "context"
 
 type User struct {
+	Id   uint
 	Name *string
 	Age  int64
-	Id   uint
 }
 
-func NewUser(ctx context.Context, age int64, id uint, name *string) *User {
-	return nil
+func NewUser(ctx context.Context, id uint, name *string, age int64) *User {
+
+	ent := &User{
+		Id:   id,
+		Name: name,
+		Age:  age,
+	}
+
+	return ent
 }

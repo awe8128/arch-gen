@@ -7,5 +7,5 @@ import (
 )
 
 type Repository interface {
-	CreateUser(ctx context.Context, id uint, name *string) (*string, uuid.UUID)
+	CreateUser(ctx context.Context, name *string, id uint) (*string, uuid.UUID)
 }

@@ -57,8 +57,10 @@ func NewFuncTemplate(method, name string, in, out map[string]config.Property) st
 func NewFuncTemplateWithContext(method, name string, in, out map[string]config.Property) string {
 	var content string
 	var outContent string
+
 	var inFields strings.Builder
 	var outFields strings.Builder
+	var contextField strings.Builder
 
 	for key, prop := range in {
 		fieldType := prop.Type
@@ -69,6 +71,11 @@ func NewFuncTemplateWithContext(method, name string, in, out map[string]config.P
 		inFields.WriteString(
 			fmt.Sprintf("%s %s,", key, fieldType),
 		)
+
+		contextField.WriteString(
+			fmt.Sprintf("\t%s:%s,\n", capitalize(key), key),
+		)
+
 	}
 
 	inParams := inFields.String()
@@ -92,12 +99,20 @@ func NewFuncTemplateWithContext(method, name string, in, out map[string]config.P
 		outContent = fmt.Sprintf(`%s`, "*"+capitalize(name))
 	}
 
+	contextContent := fmt.Sprintf(`
+	ent:=&%s{
+		%s
+	}
+	
+	`, outContent[1:], contextField.String())
+
 	// TODO: add more context for typical functions
 	content = fmt.Sprintf(`
 	func %s {
-		return nil
+		%s
+		return ent
 	}
-	`, inContent+outContent)
+	`, inContent+outContent, contextContent)
 
 	return content
 }

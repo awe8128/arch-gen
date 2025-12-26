@@ -7,5 +7,10 @@ type Lead struct {
 }
 
 func NewLead(ctx context.Context, id *uint) *Lead {
-	return nil
+
+	ent := &Lead{
+		Id: id,
+	}
+
+	return ent
 }
