@@ -106,7 +106,6 @@ func NewFuncTemplateWithContext(method, name string, in, out map[string]config.P
 	
 	`, outContent[1:], contextField.String())
 
-	// TODO: add more context for typical functions
 	content = fmt.Sprintf(`
 	func %s {
 		%s

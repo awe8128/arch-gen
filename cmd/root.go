@@ -8,8 +8,9 @@ import (
 
 	"github.com/awe8128/arch-gen/cmd/generate"
 	"github.com/awe8128/arch-gen/config"
-	"github.com/awe8128/arch-gen/internal/linter"
-	"github.com/awe8128/arch-gen/internal/structure"
+	"github.com/awe8128/arch-gen/internal/sys"
+
+	"github.com/awe8128/arch-gen/utils/linter"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +24,7 @@ for example:
 	Layer Architecture 
 		`,
 		Run: func(cmd *cobra.Command, args []string) {
-			structure.Start()
+			sys.Start()
 			linter.FormatAndFixImportsDir("./be")
 		},
 	}
