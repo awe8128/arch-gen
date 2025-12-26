@@ -7,7 +7,7 @@ import (
 	"github.com/awe8128/arch-gen/config"
 )
 
-func NewTypes(name string, p map[string]config.Property) string {
+func NewStructTemplate(name string, p map[string]config.Property) string {
 	var fields strings.Builder
 
 	for fieldName, prop := range p {

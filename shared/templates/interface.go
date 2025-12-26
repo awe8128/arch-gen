@@ -28,3 +28,25 @@ type Repository interface {
 
 	return content
 }
+
+func InterfaceTemplateWithName(name string, r map[string]config.Repository) string {
+	var fields strings.Builder
+
+	for method, fn := range r {
+		fnStr := NewFuncTemplate(method, name, fn.In, fn.Out)
+
+		fields.WriteString(
+			fmt.Sprintf("\t%s\n", fnStr),
+		)
+	}
+
+	content := fmt.Sprintf(
+		`
+type %s interface {
+%s}
+`,
+		fmt.Sprintf("%sRepository", capitalize(name)), fields.String(),
+	)
+
+	return content
+}

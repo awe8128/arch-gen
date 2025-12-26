@@ -15,7 +15,7 @@ func EntityTemplate(pkg string, p map[string]config.Property) (string, string) {
 	%s
 	`,
 		templates.NewPackageTemplate(pkg),
-		templates.NewTypes(pkg, p),
+		templates.NewStructTemplate(pkg, p),
 		templates.NewFuncTemplateWithContext("New", pkg, p, nil),
 	)
 
