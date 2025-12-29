@@ -18,7 +18,7 @@ func NewInterfaceTemplate(name string, r map[string]config.Repository) string {
 		)
 	}
 
-	content := fmt.Sprintf(
+	template := fmt.Sprintf(
 		`
 type Repository interface {
 %s}
@@ -26,5 +26,5 @@ type Repository interface {
 		fields.String(),
 	)
 
-	return content
+	return template
 }

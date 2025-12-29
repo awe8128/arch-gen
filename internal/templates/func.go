@@ -55,7 +55,7 @@ func NewFuncTemplate(method, name string, in, out map[string]config.Property) st
 //		 return nil
 //	}
 func NewFuncTemplateWithContext(method, name string, in, out map[string]config.Property) string {
-	var content string
+	var template string
 	var outContent string
 
 	var inFields strings.Builder
@@ -107,12 +107,12 @@ func NewFuncTemplateWithContext(method, name string, in, out map[string]config.P
 	`, outContent[1:], contextField.String())
 
 	// TODO: add more context for typical functions
-	content = fmt.Sprintf(`
+	template = fmt.Sprintf(`
 	func %s {
 		%s
 		return ent
 	}
 	`, inContent+outContent, contextContent)
 
-	return content
+	return template
 }

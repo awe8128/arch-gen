@@ -9,6 +9,5 @@ var (
 	DBLayer = []string{
 		"migrations",
 		"query",
-		"sqlc",
 	}
 )

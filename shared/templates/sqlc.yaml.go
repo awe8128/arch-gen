@@ -22,6 +22,6 @@ sql:
             go_type: "time.Time"
           - db_type: "uuid"
             go_type: "github.com/google/uuid.UUID"
-	`
+`
 	return content
 }

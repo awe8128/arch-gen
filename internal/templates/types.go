@@ -21,7 +21,7 @@ func NewTypes(name string, p map[string]config.Property) string {
 		)
 	}
 
-	content := fmt.Sprintf(
+	template := fmt.Sprintf(
 		`
 type %s struct {
 %s}
@@ -30,7 +30,7 @@ type %s struct {
 		fields.String(),
 	)
 
-	return content
+	return template
 }
 
 func capitalize(s string) string {

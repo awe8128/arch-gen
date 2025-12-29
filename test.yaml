@@ -2,6 +2,15 @@ pj:
   name: be
   sys: ddd
 
+db:
+  user:
+    id: uuid
+    name: string
+  lead:
+    id: int64
+    price: int64
+    name: string
+
 domains:
   User:
     type: struct

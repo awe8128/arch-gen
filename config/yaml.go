@@ -1,8 +1,9 @@
 package config
 
 type Config struct {
-	Project PJ                `mapstructure:"pj"`
-	Domains map[string]Domain `mapstructure:"domains"`
+	Project PJ                           `mapstructure:"pj"`
+	Domains map[string]Domain            `mapstructure:"domains"`
+	DB      map[string]map[string]string `mapstructure:"db"`
 }
 
 type PJ struct {
