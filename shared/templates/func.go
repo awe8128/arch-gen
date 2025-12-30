@@ -7,111 +7,58 @@ import (
 	"github.com/awe8128/arch-gen/config"
 )
 
-// Create(ctx context.Context, ...) (types, types)
-func NewFuncTemplate(method, name string, in, out map[string]config.Property) string {
-	var content string
-	var outContent string
-	var inFields strings.Builder
-	var outFields strings.Builder
+func NewFuncTemplate(method, name string, params, out map[string]config.Property, isCtx bool, isRepo bool) string {
 
-	for key, prop := range in {
-		fieldType := prop.Type
-		if prop.Nullable {
-			fieldType = "*" + fieldType
-		}
+	fn := capitalize(method) + capitalize(name)
+	p := GetParams(params, isCtx)
+	r := GetReturnValues(name, out)
 
-		inFields.WriteString(
-			fmt.Sprintf("%s %s,", key, fieldType),
-		)
+	if isRepo {
+		return fmt.Sprintf(`%s %s %s`, fn, p, r)
 	}
 
-	inParams := inFields.String()
-	inContent := fmt.Sprintf(`%s(ctx context.Context, %s)`, capitalize(method)+capitalize(name), inParams[:len(inParams)-1])
-
-	if out != nil {
-		for _, prop := range out {
-			fieldType := prop.Type
-			if prop.Nullable {
-				fieldType = "*" + fieldType
-			}
-
-			outFields.WriteString(
-				fmt.Sprintf("%s,", fieldType),
-			)
-		}
-
-		outParams := outFields.String()
-		outContent = fmt.Sprintf(`(%s)`, outParams[:len(outParams)-1])
-	} else {
-		outContent = fmt.Sprintf("%s", "*"+capitalize(name))
-	}
-
-	content = inContent + outContent
-
-	return content
+	return fmt.Sprintf(`func %s %s %s`, fn, p, r)
 }
 
-//	func Create(ctx context.Context, ...) (types, types) || *entity {
-//		 return nil
-//	}
-func NewFuncTemplateWithContext(method, name string, in, out map[string]config.Property) string {
-	var content string
-	var outContent string
+func NewMethodTemplate(method, name string, params, out map[string]config.Property, isCtx bool) string {
 
-	var inFields strings.Builder
-	var outFields strings.Builder
-	var contextField strings.Builder
+	fn := capitalize(method) + capitalize(name)
+	m := fmt.Sprintf(`(r *%sStore)`, capitalize(name))
+	p := GetParams(params, isCtx)
+	r := GetReturnValues(name, out)
 
-	for key, prop := range in {
-		fieldType := prop.Type
-		if prop.Nullable {
-			fieldType = "*" + fieldType
-		}
+	template := fmt.Sprintf(`func %s %s %s %s`, m, fn, p, r)
 
-		inFields.WriteString(
-			fmt.Sprintf("%s %s,", key, fieldType),
-		)
+	return template
+}
 
-		contextField.WriteString(
+func EntityNewFuncTemplate(name string, p, r map[string]config.Property) string {
+
+	var template string
+	var funcProcess strings.Builder
+
+	for key := range p {
+		funcProcess.WriteString(
 			fmt.Sprintf("\t%s:%s,\n", capitalize(key), key),
 		)
 
 	}
 
-	inParams := inFields.String()
-	inContent := fmt.Sprintf(`%s(ctx context.Context, %s)`, capitalize(method)+capitalize(name), inParams[:len(inParams)-1])
-
-	if out != nil {
-		for _, prop := range out {
-			fieldType := prop.Type
-			if prop.Nullable {
-				fieldType = "*" + fieldType
-			}
-
-			outFields.WriteString(
-				fmt.Sprintf("%s,", fieldType),
-			)
-		}
-
-		outParams := outFields.String()
-		outContent = fmt.Sprintf(`(%s)`, outParams[:len(outParams)-1])
-	} else {
-		outContent = fmt.Sprintf(`%s`, "*"+capitalize(name))
-	}
+	fn := NewFuncTemplate("New", name, p, r, true, false)
 
 	contextContent := fmt.Sprintf(`
 	ent:=&%s{
 		%s
 	}
 	
-	`, outContent[1:], contextField.String())
+	`, GetReturnValues(name, r)[1:], funcProcess.String())
 
-	content = fmt.Sprintf(`
-	func %s {
-		%s
-		return ent
-	}
-	`, inContent+outContent, contextContent)
+	template = fmt.Sprintf(`
+%s {
+	%s
+	return ent
+}
+	`, fn, contextContent)
 
-	return content
+	return template
 }
