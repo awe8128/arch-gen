@@ -7,11 +7,26 @@ import (
 	"github.com/awe8128/arch-gen/config"
 )
 
+func NewInterfaceMethod(name string, r map[string]config.Repository) string {
+	var fields strings.Builder
+
+	for method, fn := range r {
+		fnStr := NewMethodTemplate(method, name, fn.In, fn.Out, true)
+
+		fields.WriteString(
+			fmt.Sprintf("\t%s\n", fnStr),
+		)
+	}
+
+	return fields.String()
+
+}
+
 func NewInterfaceTemplate(name string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
 	for method, fn := range r {
-		fnStr := NewFuncTemplate(method, name, fn.In, fn.Out)
+		fnStr := NewFuncTemplate(method, name, fn.In, fn.Out, true, true)
 
 		fields.WriteString(
 			fmt.Sprintf("\t%s\n", fnStr),
@@ -29,11 +44,11 @@ type Repository interface {
 	return content
 }
 
-func InterfaceTemplateWithName(name string, r map[string]config.Repository) string {
+func InterfaceTemplate(name string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
 	for method, fn := range r {
-		fnStr := NewFuncTemplate(method, name, fn.In, fn.Out)
+		fnStr := NewFuncTemplate(method, name, fn.In, fn.Out, true, true)
 
 		fields.WriteString(
 			fmt.Sprintf("\t%s\n", fnStr),

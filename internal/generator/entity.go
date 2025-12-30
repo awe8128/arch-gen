@@ -7,16 +7,17 @@ import (
 	"github.com/awe8128/arch-gen/shared/templates"
 )
 
-func EntityTemplate(pkg string, p map[string]config.Property) (string, string) {
-	filename := fmt.Sprintf("%s.go", pkg)
+func EntityTemplate(name string, p map[string]config.Property) (string, string) {
+	filename := fmt.Sprintf("%s.go", name)
+
 	content := fmt.Sprintf(`%s
 
 	%s
 	%s
 	`,
-		templates.NewPackageTemplate(pkg),
-		templates.NewStructTemplate(pkg, p),
-		templates.NewFuncTemplateWithContext("New", pkg, p, nil),
+		templates.NewPackageTemplate(name),
+		templates.NewStructTemplate(name, p),
+		templates.EntityNewFuncTemplate(name, p, nil),
 	)
 
 	return content, filename

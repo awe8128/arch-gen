@@ -2,9 +2,9 @@ package templates
 
 import "fmt"
 
-func NewPackageTemplate(pkg string) string {
+func NewPackageTemplate(name string) string {
 
-	template := fmt.Sprintf(`package %s`, pkg)
+	template := fmt.Sprintf(`package %s`, name)
 
 	return template
 }

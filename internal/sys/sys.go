@@ -8,6 +8,7 @@ import (
 	"github.com/awe8128/arch-gen/internal/generator"
 
 	"github.com/awe8128/arch-gen/utils/fs"
+	"github.com/awe8128/arch-gen/utils/sqlc"
 )
 
 func Start() {
@@ -86,5 +87,24 @@ func Start() {
 		}
 
 	}
+	tag := 1
+	for table, columns := range config.GlobalConfig.DB {
 
+		path = filepath.Join(root, "infra", "db", "migrations")
+		content, filename = generator.MigrationTemplate(table, columns, tag)
+		tag++
+
+		if err := fs.GenerateFile(content, path, filename); err != nil {
+			panic(err)
+		}
+
+		path = filepath.Join(root, "infra", "db", "query")
+		content, filename = generator.QueryTemplate(table, columns)
+		if err := fs.GenerateFile(content, path, filename); err != nil {
+			panic(err)
+		}
+
+	}
+
+	sqlc.RunSQLC()
 }

@@ -13,12 +13,15 @@ func InfraRepositoryTemplate(pkg string, r map[string]config.Repository, p map[s
 
 	%s
 	%s
+	%s
 	`,
 		templates.NewPackageTemplate("repository"),
 
-		templates.InterfaceTemplateWithName(pkg, r),
+		templates.InterfaceTemplate(pkg, r),
 
-		templates.NewInfraTemplate(pkg),
+		templates.NewStoreTemplate(pkg),
+
+		templates.NewInterfaceMethod(pkg, r),
 	)
 
 	return content, filename

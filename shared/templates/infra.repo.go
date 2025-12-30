@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func NewInfraTemplate(name string) string {
+func NewStoreTemplate(name string) string {
 	content := fmt.Sprintf(
 		`
 type %sStore struct {
@@ -15,12 +15,12 @@ func New%sRepository(db *db.SQLStore) %sRepository {
 		db: db,
 		attrs: []slog.Attr{
 			slog.String("layer", "repository"),
-			slog.String("domain", "task"),
+			slog.String("domain", "%s"),
 		},
 	}
 }
 `,
-		capitalize(name), capitalize(name), capitalize(name), capitalize(name),
+		capitalize(name), capitalize(name), capitalize(name), capitalize(name), name,
 	)
 
 	return content
