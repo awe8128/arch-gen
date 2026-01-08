@@ -1,6 +1,9 @@
 package sys
 
 var (
+	applicationLayer = []string{
+		"usecase",
+	}
 	infrastructureLayer = []string{
 		"db",
 		"repository",
@@ -9,5 +12,11 @@ var (
 	DBLayer = []string{
 		"migrations",
 		"query",
+	}
+
+	PresentationLayer = []string{
+		"controller",
+		"schema",
+		"server",
 	}
 )

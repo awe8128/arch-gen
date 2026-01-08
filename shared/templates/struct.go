@@ -39,3 +39,31 @@ func capitalize(s string) string {
 	}
 	return strings.ToUpper(s[:1]) + s[1:]
 }
+
+func NewUsecaseStruct(name string) string {
+
+	template := fmt.Sprintf(
+		`
+		type %sUsecase struct {
+			repository repository.%sRepository
+		}
+		`, name, capitalize(name),
+	)
+
+	return template
+}
+
+func NewDIfunc(name string) string {
+	template := fmt.Sprintf(
+		`
+		func New%sUsecase(repository repository.%sRepository) %sUsecase {
+			return &%sUsecase{
+				repository: repository,
+			}
+		}
+		`, capitalize(name), capitalize(name), capitalize(name), name,
+	)
+
+	return template
+
+}

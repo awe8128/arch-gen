@@ -17,7 +17,7 @@ func InfraRepositoryTemplate(pkg string, r map[string]config.Repository, p map[s
 	`,
 		templates.NewPackageTemplate("repository"),
 
-		templates.InterfaceTemplate(pkg, r),
+		templates.InterfaceTemplate(pkg, "repository", r),
 
 		templates.NewStoreTemplate(pkg),
 
