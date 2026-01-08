@@ -107,4 +107,10 @@ func Start() {
 	}
 
 	sqlc.RunSQLC()
+
+	path = filepath.Join(root, "infra", "db")
+	content, filename = generator.NewInitDB()
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		panic(err)
+	}
 }
