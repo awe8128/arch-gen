@@ -46,6 +46,12 @@ func Start() {
 		panic(err)
 	}
 
+	path = filepath.Join(root, "config")
+	content, filename = generator.ConfigTemplate()
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		panic(err)
+	}
+
 	// domain layer
 	for name, domain := range config.GlobalConfig.Domains {
 		path := filepath.Join(root, "domain", name)
@@ -109,7 +115,7 @@ func Start() {
 	sqlc.RunSQLC()
 
 	path = filepath.Join(root, "infra", "db")
-	content, filename = generator.NewInitDB()
+	content, filename = generator.InitDBTemplate()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}
