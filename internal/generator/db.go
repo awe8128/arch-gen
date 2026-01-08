@@ -1,6 +1,6 @@
 package generator
 
-func NewInitDB() (string, string) {
+func InitDBTemplate() (string, string) {
 	filename := "db.go"
 	template := `
 package db
@@ -9,7 +9,6 @@ import (
 	"context"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"main.go/utils/config"
 )
 func Init(ctx context.Context, config *config.Config) (*SQLStore, error) {
 
