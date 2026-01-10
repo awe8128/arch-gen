@@ -44,7 +44,13 @@ type Repository interface {
 	return content
 }
 
-func InterfaceTemplate(name string, r map[string]config.Repository) string {
+/*
+InterfaceTemplate creates
+type <name> interface {
+
+}
+*/
+func InterfaceTemplate(name, suffix string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
 	for method, fn := range r {
@@ -55,12 +61,14 @@ func InterfaceTemplate(name string, r map[string]config.Repository) string {
 		)
 	}
 
+	interfaceName := capitalize(name) + capitalize(suffix)
+
 	content := fmt.Sprintf(
 		`
 type %s interface {
 %s}
 `,
-		fmt.Sprintf("%sRepository", capitalize(name)), fields.String(),
+		interfaceName, fields.String(),
 	)
 
 	return content

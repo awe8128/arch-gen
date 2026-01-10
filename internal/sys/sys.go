@@ -21,6 +21,14 @@ func Start() {
 	// create folder structure
 	fs.Generate(sys)
 
+	// application layer
+	for _, layer := range applicationLayer {
+		path := filepath.Join(root, "application", layer)
+		if err := os.MkdirAll(path, 0o755); err != nil {
+			panic(err)
+		}
+	}
+
 	// infra layer
 	for _, layer := range infrastructureLayer {
 		path := filepath.Join(root, "infra", layer)
@@ -76,6 +84,7 @@ func Start() {
 			panic(err)
 		}
 
+		// infra repository
 		path = filepath.Join(root, "infra", "repository")
 		content, filename = generator.InfraRepositoryTemplate(name,
 			domain.Repositories,
@@ -86,8 +95,20 @@ func Start() {
 			panic(err)
 		}
 
+		// infra db
 		path = filepath.Join(root, "infra", "db")
 		content, filename = generator.StoreTemplate()
+		if err := fs.GenerateFile(content, path, filename); err != nil {
+			panic(err)
+		}
+
+		// usecase
+		path = filepath.Join(root, "application", "usecase", name)
+		if err := os.MkdirAll(path, 0o755); err != nil {
+			panic(err)
+		}
+
+		content, filename = generator.UsecaseTemplate(name, domain.Repositories)
 		if err := fs.GenerateFile(content, path, filename); err != nil {
 			panic(err)
 		}
