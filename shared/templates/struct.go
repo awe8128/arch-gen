@@ -53,6 +53,19 @@ func NewUsecaseStruct(name string) string {
 	return template
 }
 
+func NewControllerStruct(name string) string {
+
+	template := fmt.Sprintf(
+		`
+		type %sController struct {
+			usecase %s.%sUsecase
+		}
+		`, name, name, capitalize(name),
+	)
+
+	return template
+}
+
 func NewDIfunc(name string) string {
 	template := fmt.Sprintf(
 		`
@@ -66,4 +79,40 @@ func NewDIfunc(name string) string {
 
 	return template
 
+}
+
+func NewDIfuncController(name string) string {
+	template := fmt.Sprintf(
+		`
+		func New%sController(usecase %s.%sUsecase) %sController {
+			return &%sController{
+				usecase: usecase,
+			}
+		}
+		`, capitalize(name), name, capitalize(name), capitalize(name), name,
+	)
+
+	return template
+
+}
+
+func HandlerStruct() string {
+	var fields strings.Builder
+
+	for name := range config.GlobalConfig.Domains {
+		fields.WriteString(
+			fmt.Sprintf("\t%s controller.%sController\n", capitalize(name), capitalize(name)),
+		)
+	}
+
+	template := fmt.Sprintf(
+		`
+		type Handler struct {
+			%s
+		}
+
+		`, fields.String(),
+	)
+
+	return template
 }

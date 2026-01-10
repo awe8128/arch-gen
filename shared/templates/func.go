@@ -62,3 +62,27 @@ func EntityNewFuncTemplate(name string, p, r map[string]config.Property) string 
 
 	return template
 }
+
+func NewHandlerFuncTemplate() string {
+
+	var fields strings.Builder
+
+	for name := range config.GlobalConfig.Domains {
+		fields.WriteString(
+			fmt.Sprintf("\t%s: di.%s(db),\n", capitalize(name), capitalize(name)),
+		)
+	}
+
+	template := fmt.Sprintf(
+		`
+			func NewHandler(db *db.SQLStore) *Handler {
+				return &Handler{
+					%s
+				}
+			}
+	
+		`, fields.String(),
+	)
+
+	return template
+}
