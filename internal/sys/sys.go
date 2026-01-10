@@ -60,6 +60,14 @@ func Start() {
 		panic(err)
 	}
 
+	// controller
+	for _, folder := range PresentationLayer {
+		path = filepath.Join(root, "presentation", folder)
+		if err := os.MkdirAll(path, 0o755); err != nil {
+			panic(err)
+		}
+	}
+
 	// domain layer
 	for name, domain := range config.GlobalConfig.Domains {
 		path := filepath.Join(root, "domain", name)
@@ -113,7 +121,21 @@ func Start() {
 			panic(err)
 		}
 
+		// controller
+		path = filepath.Join(root, "presentation", "controller")
+
+		content, filename = generator.ControllerTemplate(name, domain.Repositories)
+		if err := fs.GenerateFile(content, path, filename); err != nil {
+			panic(err)
+		}
+		// di
+		path = filepath.Join(root, "di")
+		content, filename = generator.NewDI(name)
+		if err := fs.GenerateFile(content, path, filename); err != nil {
+			panic(err)
+		}
 	}
+
 	tag := 1
 	for table, columns := range config.GlobalConfig.DB {
 
@@ -137,6 +159,17 @@ func Start() {
 
 	path = filepath.Join(root, "infra", "db")
 	content, filename = generator.InitDBTemplate()
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		panic(err)
+	}
+
+	path = filepath.Join(root, "presentation", "server")
+	content, filename = generator.ServerTemplate()
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		panic(err)
+	}
+
+	content, filename = generator.HandlerTemplate()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}
