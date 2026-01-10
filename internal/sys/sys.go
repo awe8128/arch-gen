@@ -173,4 +173,19 @@ func Start() {
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}
+
+	content, filename = generator.NewRouter()
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		panic(err)
+	}
+
+	path = filepath.Join(root, "cmd", "api")
+	if err := os.MkdirAll(path, 0o755); err != nil {
+		panic(err)
+	}
+	content, filename = generator.NewAPI()
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		panic(err)
+	}
+
 }
