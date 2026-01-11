@@ -5,13 +5,18 @@ import (
 	"strings"
 
 	"github.com/awe8128/arch-gen/config"
+	"github.com/awe8128/arch-gen/templates/immutable"
 )
 
-func NewInterfaceMethod(name string, r map[string]config.Repository) string {
+func InterfaceMethodTemplate(name string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
 	for method, fn := range r {
-		fnStr := NewMethodTemplate(method, name, fn.In, fn.Out, true)
+		fnStr := immutable.NewFuncBuilder(
+			method, capitalize(name),
+			fn.In,
+			fn.Out,
+		).Body().Method(capitalize(name) + "Store").BuildFunc(true)
 
 		fields.WriteString(
 			fmt.Sprintf("\t%s\n", fnStr),
@@ -22,40 +27,18 @@ func NewInterfaceMethod(name string, r map[string]config.Repository) string {
 
 }
 
-func NewInterfaceTemplate(name string, r map[string]config.Repository) string {
-	var fields strings.Builder
-
-	for method, fn := range r {
-		fnStr := NewFuncTemplate(method, name, fn.In, fn.Out, true, true)
-
-		fields.WriteString(
-			fmt.Sprintf("\t%s\n", fnStr),
-		)
-	}
-
-	content := fmt.Sprintf(
-		`
-type Repository interface {
-%s}
-`,
-		fields.String(),
-	)
-
-	return content
-}
-
 /*
-InterfaceTemplate creates
-type <name> interface {
+Interface Template Creates
 
-}
+	type <name> interface {
+		func()
+	}
 */
-func InterfaceTemplate(name, suffix string, r map[string]config.Repository) string {
+func InterfaceTemplate(name, suffix, domain string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
 	for method, fn := range r {
-		fnStr := NewFuncTemplate(method, name, fn.In, fn.Out, true, true)
-
+		fnStr := immutable.NewFuncBuilder(method, capitalize(domain), fn.In, fn.Out).BuildInterface(true)
 		fields.WriteString(
 			fmt.Sprintf("\t%s\n", fnStr),
 		)
@@ -65,9 +48,9 @@ func InterfaceTemplate(name, suffix string, r map[string]config.Repository) stri
 
 	content := fmt.Sprintf(
 		`
-type %s interface {
-%s}
-`,
+	type %s interface {
+	%s}
+	`,
 		interfaceName, fields.String(),
 	)
 

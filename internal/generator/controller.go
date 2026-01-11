@@ -19,8 +19,8 @@ func ControllerTemplate(domain string, r map[string]config.Repository) (string, 
 
 	%s
 	`,
-		templates.NewPackageTemplate("controller"),
-		templates.InterfaceTemplate(domain, "controller", nil),
+		templates.PackageTemplate("controller"),
+		templates.InterfaceTemplate(domain, "controller", domain, nil),
 		templates.NewControllerStruct(domain),
 		templates.NewDIfuncController(domain),
 	)

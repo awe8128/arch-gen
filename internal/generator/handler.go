@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates/immutable"
 )
 
 func HandlerTemplate() (string, string) {
@@ -17,9 +18,9 @@ func HandlerTemplate() (string, string) {
 		
 		%s
 		`,
-		templates.NewPackageTemplate("server"),
+		templates.PackageTemplate("server"),
 		templates.HandlerStruct(),
-		templates.NewHandlerFuncTemplate(),
+		immutable.NewHandlerFuncTemplate(),
 	)
 
 	return template, filename

@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func NewStoreTemplate(name string) string {
+func StoreTemplate(name string) string {
 	content := fmt.Sprintf(
 		`
 type %sStore struct {

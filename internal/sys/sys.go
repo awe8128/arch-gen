@@ -84,7 +84,7 @@ func Start() {
 			panic(err)
 		}
 
-		content, filename = generator.RepositoryTemplate(name,
+		content, filename = generator.GenerateRepository(name,
 			domain.Repositories,
 		)
 
@@ -94,7 +94,7 @@ func Start() {
 
 		// infra repository
 		path = filepath.Join(root, "infra", "repository")
-		content, filename = generator.InfraRepositoryTemplate(name,
+		content, filename = generator.GenerateInfraRepository(name,
 			domain.Repositories,
 			domain.Properties,
 		)

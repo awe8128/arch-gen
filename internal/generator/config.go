@@ -64,7 +64,7 @@ func ConfigTemplate() (string, string) {
 	return source
 }
 	`,
-		templates.NewPackageTemplate("config"),
+		templates.PackageTemplate("config"),
 		templates.NewJSONStruct(),
 		"%s://%s:%s@%s:%s/%s?sslmode=disable",
 	)

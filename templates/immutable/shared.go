@@ -1,7 +1,8 @@
-package templates
+package immutable
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/awe8128/arch-gen/config"
@@ -11,7 +12,15 @@ import (
 func GetParams(params map[string]config.Property, addCtx bool) string {
 	var p strings.Builder
 
-	for value, custom := range params {
+	// Sort keys for consistent ordering
+	keys := make([]string, 0, len(params))
+	for k := range params {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, value := range keys {
+		custom := params[value]
 
 		fieldType := custom.Type
 		if custom.Nullable {
@@ -40,7 +49,15 @@ func GetReturnValues(name string, params map[string]config.Property) string {
 	var r strings.Builder
 
 	if params != nil {
-		for _, prop := range params {
+		// Sort keys for consistent ordering
+		keys := make([]string, 0, len(params))
+		for k := range params {
+			keys = append(keys, k)
+		}
+		sort.Strings(keys)
+
+		for _, key := range keys {
+			prop := params[key]
 			fieldType := prop.Type
 			if prop.Nullable {
 				fieldType = "*" + fieldType

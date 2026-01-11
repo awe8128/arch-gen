@@ -38,7 +38,7 @@ func ServerTemplate() (string, string) {
 	}
 
 		`,
-		templates.NewPackageTemplate("server"),
+		templates.PackageTemplate("server"),
 	)
 
 	return template, filename

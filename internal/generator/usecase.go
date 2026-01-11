@@ -19,8 +19,8 @@ func UsecaseTemplate(domain string, r map[string]config.Repository) (string, str
 
 	%s
 	`,
-		templates.NewPackageTemplate(domain),
-		templates.InterfaceTemplate(domain, "usecase", nil),
+		templates.PackageTemplate(domain),
+		templates.InterfaceTemplate(domain, "usecase", domain, nil),
 		templates.NewUsecaseStruct(domain),
 		templates.NewDIfunc(domain),
 	)

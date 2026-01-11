@@ -5,6 +5,7 @@ import (
 
 	"github.com/awe8128/arch-gen/config"
 	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates/immutable"
 )
 
 func EntityTemplate(name string, p map[string]config.Property) (string, string) {
@@ -15,9 +16,9 @@ func EntityTemplate(name string, p map[string]config.Property) (string, string) 
 	%s
 	%s
 	`,
-		templates.NewPackageTemplate(name),
+		templates.PackageTemplate(name),
 		templates.NewStructTemplate(name, p),
-		templates.EntityNewFuncTemplate(name, p, nil),
+		immutable.NewEntityFuncTemplate(name, p, nil),
 	)
 
 	return content, filename
