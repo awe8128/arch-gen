@@ -1,9 +1,9 @@
-package generator
+package immutables
 
 import (
 	"fmt"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
 func ConfigTemplate() (string, string) {
@@ -64,8 +64,8 @@ func ConfigTemplate() (string, string) {
 	return source
 }
 	`,
-		templates.NewPackageTemplate("config"),
-		templates.NewJSONStruct(),
+		templates.Package("config"),
+		templates.ConfigStruct(),
 		"%s://%s:%s@%s:%s/%s?sslmode=disable",
 	)
 

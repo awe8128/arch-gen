@@ -1,7 +1,8 @@
-package generator
+package immutables
 
 func StoreTemplate() (string, string) {
 	filename := "store.go"
+
 	content := `
 package db
 

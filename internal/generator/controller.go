@@ -4,12 +4,15 @@ import (
 	"fmt"
 
 	"github.com/awe8128/arch-gen/config"
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
+	"github.com/awe8128/arch-gen/templates/builder"
+	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func ControllerTemplate(domain string, r map[string]config.Repository) (string, string) {
+func GenerateController(domain string, r map[string]config.Repository) (string, string) {
 	filename := fmt.Sprintf(`%s.go`, domain)
-	template := fmt.Sprintf(`
+
+	content := fmt.Sprintf(`
 	%s
 
 	//TODO: Add methods
@@ -19,10 +22,20 @@ func ControllerTemplate(domain string, r map[string]config.Repository) (string, 
 
 	%s
 	`,
-		templates.NewPackageTemplate("controller"),
-		templates.InterfaceTemplate(domain, "controller", nil),
-		templates.NewControllerStruct(domain),
-		templates.NewDIfuncController(domain),
-	)
-	return template, filename
+		templates.Package("controller"),
+		templates.Interface(domain, "controller", domain, nil),
+		templates.ControllerStruct(domain),
+		builder.NewFuncBuilder().Name("New", utils.Capitalize(domain), "Controller").
+			AddInProperty(
+				"usecase",
+				fmt.Sprintf("%s.%sUsecase", domain, utils.Capitalize(domain)),
+				false,
+			).
+			AddOutProperty(
+				"",
+				fmt.Sprintf("%sController", utils.Capitalize(domain)),
+				false,
+			).Body().BuildFunc(false))
+
+	return content, filename
 }

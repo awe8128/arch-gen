@@ -1,8 +1,12 @@
 package templates
 
-import "fmt"
+import (
+	"fmt"
 
-func NewStoreTemplate(name string) string {
+	"github.com/awe8128/arch-gen/templates/utils"
+)
+
+func Store(name string) string {
 	content := fmt.Sprintf(
 		`
 type %sStore struct {
@@ -20,7 +24,11 @@ func New%sRepository(db *db.SQLStore) %sRepository {
 	}
 }
 `,
-		capitalize(name), capitalize(name), capitalize(name), capitalize(name), name,
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		name,
 	)
 
 	return content

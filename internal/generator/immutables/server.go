@@ -1,13 +1,14 @@
-package generator
+package immutables
 
 import (
 	"fmt"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
-func ServerTemplate() (string, string) {
+func GenerateServer() (string, string) {
 	filename := "server.go"
+
 	template := fmt.Sprintf(
 		`
 		%s
@@ -38,7 +39,7 @@ func ServerTemplate() (string, string) {
 	}
 
 		`,
-		templates.NewPackageTemplate("server"),
+		templates.Package("server"),
 	)
 
 	return template, filename

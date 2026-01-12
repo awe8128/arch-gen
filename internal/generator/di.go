@@ -2,12 +2,14 @@ package generator
 
 import (
 	"fmt"
-	"strings"
+
+	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func NewDI(name string) (string, string) {
+func GenerateDI(name string) (string, string) {
 	filename := fmt.Sprintf("%s.go", name)
-	template := fmt.Sprintf(`
+
+	content := fmt.Sprintf(`
 	package di
 
 	func %s(store *db.SQLStore) controller.%sController {
@@ -17,14 +19,14 @@ func NewDI(name string) (string, string) {
 
 		return ctrl
 	}
-	`, capitalize(name), capitalize(name), capitalize(name), name, capitalize(name), capitalize(name))
+	`,
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		name,
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+	)
 
-	return template, filename
-}
-
-func capitalize(s string) string {
-	if s == "" {
-		return s
-	}
-	return strings.ToUpper(s[:1]) + s[1:]
+	return content, filename
 }

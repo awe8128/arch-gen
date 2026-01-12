@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
-func QueryTemplate(table string, columns map[string]string) (string, string) {
+func GenerateQuery(table string, columns map[string]string) (string, string) {
 	var fields strings.Builder
 	var values strings.Builder
 
@@ -28,7 +28,7 @@ func QueryTemplate(table string, columns map[string]string) (string, string) {
 	v := values.String()
 
 	filename := table + ".sql"
-	content := templates.CreateQueryTemplate(table, "one", f[:len(f)-2], v[:len(v)-1], "*")
+	content := templates.CreateQuery(table, "one", f[:len(f)-2], v[:len(v)-1], "*")
 
 	return content, filename
 }
