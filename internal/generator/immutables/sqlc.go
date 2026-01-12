@@ -1,8 +1,10 @@
-package templates
+package immutables
 
-func NewSqlcYamlTemplate() string {
-	content :=
-		`version: "2"
+func SqlcYamlTemplate() (string, string) {
+	filename := "sqlc.yaml"
+
+	content := `
+version: "2"
 sql:
   - engine: "postgresql"
     queries: "./infra/db/query/"
@@ -23,5 +25,5 @@ sql:
           - db_type: "uuid"
             go_type: "github.com/google/uuid.UUID"
 `
-	return content
+	return content, filename
 }

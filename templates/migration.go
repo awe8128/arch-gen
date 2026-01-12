@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func MigrationTemplate(name string, columns map[string]string) string {
+func Migration(name string, columns map[string]string) string {
 
 	var fields strings.Builder
 

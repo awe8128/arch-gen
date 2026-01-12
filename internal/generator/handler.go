@@ -3,13 +3,13 @@ package generator
 import (
 	"fmt"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
-func HandlerTemplate() (string, string) {
+func GenerateHandler() (string, string) {
 	filename := "handler.go"
 
-	template := fmt.Sprintf(
+	content := fmt.Sprintf(
 		`
 		%s
 
@@ -17,10 +17,10 @@ func HandlerTemplate() (string, string) {
 		
 		%s
 		`,
-		templates.NewPackageTemplate("server"),
+		templates.Package("server"),
 		templates.HandlerStruct(),
-		templates.NewHandlerFuncTemplate(),
+		templates.NewHandlerFunc(),
 	)
 
-	return template, filename
+	return content, filename
 }
