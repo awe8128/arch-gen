@@ -2,7 +2,7 @@ package templates
 
 import "fmt"
 
-func PackageTemplate(name string) string {
+func Package(name string) string {
 
 	template := fmt.Sprintf(`package %s`, name)
 

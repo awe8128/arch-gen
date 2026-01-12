@@ -9,9 +9,9 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func UsecaseTemplate(domain string, r map[string]config.Repository) (string, string) {
+func GenerateUsecase(domain string, r map[string]config.Repository) (string, string) {
 	filename := fmt.Sprintf(`%s.go`, domain)
-	template := fmt.Sprintf(`
+	content := fmt.Sprintf(`
 	%s
 
 	//TODO: Add methods
@@ -21,9 +21,9 @@ func UsecaseTemplate(domain string, r map[string]config.Repository) (string, str
 
 	%s
 	`,
-		templates.PackageTemplate(domain),
-		templates.InterfaceTemplate(domain, "usecase", domain, nil),
-		templates.UsecaseStructTemplate(domain),
+		templates.Package(domain),
+		templates.Interface(domain, "usecase", domain, nil),
+		templates.UsecaseStruct(domain),
 		builder.NewFuncBuilder().Name("New", utils.Capitalize(domain), "Usecase").
 			AddInProperty(
 				"repository",
@@ -36,5 +36,5 @@ func UsecaseTemplate(domain string, r map[string]config.Repository) (string, str
 				false,
 			).Body().BuildFunc(false),
 	)
-	return template, filename
+	return content, filename
 }

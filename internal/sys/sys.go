@@ -6,6 +6,7 @@ import (
 
 	"github.com/awe8128/arch-gen/config"
 	"github.com/awe8128/arch-gen/internal/generator"
+	"github.com/awe8128/arch-gen/internal/generator/immutables"
 
 	"github.com/awe8128/arch-gen/utils/fs"
 	"github.com/awe8128/arch-gen/utils/sqlc"
@@ -49,13 +50,13 @@ func Start() {
 	// generate sqlc
 	path := filepath.Join(root)
 
-	content, filename := generator.SqlcYamlTemplate()
+	content, filename := immutables.SqlcYamlTemplate()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}
 
 	path = filepath.Join(root, "config")
-	content, filename = generator.ConfigTemplate()
+	content, filename = immutables.ConfigTemplate()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}
@@ -76,7 +77,7 @@ func Start() {
 			panic(err)
 		}
 
-		content, filename := generator.EntityTemplate(name,
+		content, filename := generator.GenerateEntity(name,
 			domain.Properties,
 		)
 
@@ -105,7 +106,7 @@ func Start() {
 
 		// infra db
 		path = filepath.Join(root, "infra", "db")
-		content, filename = generator.StoreTemplate()
+		content, filename = immutables.StoreTemplate()
 		if err := fs.GenerateFile(content, path, filename); err != nil {
 			panic(err)
 		}
@@ -116,7 +117,7 @@ func Start() {
 			panic(err)
 		}
 
-		content, filename = generator.UsecaseTemplate(name, domain.Repositories)
+		content, filename = generator.GenerateUsecase(name, domain.Repositories)
 		if err := fs.GenerateFile(content, path, filename); err != nil {
 			panic(err)
 		}
@@ -124,13 +125,13 @@ func Start() {
 		// controller
 		path = filepath.Join(root, "presentation", "controller")
 
-		content, filename = generator.ControllerTemplate(name, domain.Repositories)
+		content, filename = generator.GenerateController(name, domain.Repositories)
 		if err := fs.GenerateFile(content, path, filename); err != nil {
 			panic(err)
 		}
 		// di
 		path = filepath.Join(root, "di")
-		content, filename = generator.NewDI(name)
+		content, filename = generator.GenerateDI(name)
 		if err := fs.GenerateFile(content, path, filename); err != nil {
 			panic(err)
 		}
@@ -140,7 +141,7 @@ func Start() {
 	for table, columns := range config.GlobalConfig.DB {
 
 		path = filepath.Join(root, "infra", "db", "migrations")
-		content, filename = generator.MigrationTemplate(table, columns, tag)
+		content, filename = generator.GenerateMigration(table, columns, tag)
 		tag++
 
 		if err := fs.GenerateFile(content, path, filename); err != nil {
@@ -148,7 +149,7 @@ func Start() {
 		}
 
 		path = filepath.Join(root, "infra", "db", "query")
-		content, filename = generator.QueryTemplate(table, columns)
+		content, filename = generator.GenerateQuery(table, columns)
 		if err := fs.GenerateFile(content, path, filename); err != nil {
 			panic(err)
 		}
@@ -158,13 +159,13 @@ func Start() {
 	sqlc.RunSQLC()
 
 	path = filepath.Join(root, "infra", "db")
-	content, filename = generator.InitDBTemplate()
+	content, filename = immutables.GenerateDBInit()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}
 
 	path = filepath.Join(root, "presentation", "server")
-	content, filename = generator.GenerateServer()
+	content, filename = immutables.GenerateServer()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}

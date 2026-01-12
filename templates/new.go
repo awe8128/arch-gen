@@ -10,7 +10,7 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func NewEntityFuncTemplate(name string, p, r map[string]config.Property) string {
+func NewEntityFunc(name string, p, r map[string]config.Property) string {
 
 	var template string
 	var funcProcess strings.Builder
@@ -51,7 +51,7 @@ func NewEntityFuncTemplate(name string, p, r map[string]config.Property) string 
 	return template
 }
 
-func NewHandlerFuncTemplate() string {
+func NewHandlerFunc() string {
 
 	var fields strings.Builder
 

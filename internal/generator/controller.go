@@ -9,9 +9,10 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func ControllerTemplate(domain string, r map[string]config.Repository) (string, string) {
+func GenerateController(domain string, r map[string]config.Repository) (string, string) {
 	filename := fmt.Sprintf(`%s.go`, domain)
-	template := fmt.Sprintf(`
+
+	content := fmt.Sprintf(`
 	%s
 
 	//TODO: Add methods
@@ -21,9 +22,9 @@ func ControllerTemplate(domain string, r map[string]config.Repository) (string, 
 
 	%s
 	`,
-		templates.PackageTemplate("controller"),
-		templates.InterfaceTemplate(domain, "controller", domain, nil),
-		templates.ControllerStructTemplate(domain),
+		templates.Package("controller"),
+		templates.Interface(domain, "controller", domain, nil),
+		templates.ControllerStruct(domain),
 		builder.NewFuncBuilder().Name("New", utils.Capitalize(domain), "Controller").
 			AddInProperty(
 				"usecase",
@@ -36,5 +37,5 @@ func ControllerTemplate(domain string, r map[string]config.Repository) (string, 
 				false,
 			).Body().BuildFunc(false))
 
-	return template, filename
+	return content, filename
 }

@@ -7,7 +7,7 @@ import (
 	"github.com/awe8128/arch-gen/templates"
 )
 
-func EntityTemplate(name string, p map[string]config.Property) (string, string) {
+func GenerateEntity(name string, p map[string]config.Property) (string, string) {
 	filename := fmt.Sprintf("%s.go", name)
 
 	content := fmt.Sprintf(`%s
@@ -15,9 +15,9 @@ func EntityTemplate(name string, p map[string]config.Property) (string, string) 
 	%s
 	%s
 	`,
-		templates.PackageTemplate(name),
-		templates.NewStructTemplate("", name, "Entity", p),
-		templates.NewEntityFuncTemplate(name, p, nil),
+		templates.Package(name),
+		templates.NewStruct("", name, "Entity", p),
+		templates.NewEntityFunc(name, p, nil),
 	)
 
 	return content, filename

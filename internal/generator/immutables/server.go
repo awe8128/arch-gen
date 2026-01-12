@@ -1,4 +1,4 @@
-package generator
+package immutables
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 
 func GenerateServer() (string, string) {
 	filename := "server.go"
+
 	template := fmt.Sprintf(
 		`
 		%s
@@ -38,7 +39,7 @@ func GenerateServer() (string, string) {
 	}
 
 		`,
-		templates.PackageTemplate("server"),
+		templates.Package("server"),
 	)
 
 	return template, filename

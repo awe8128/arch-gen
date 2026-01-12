@@ -1,4 +1,4 @@
-package generator
+package immutables
 
 import (
 	"fmt"
@@ -64,8 +64,8 @@ func ConfigTemplate() (string, string) {
 	return source
 }
 	`,
-		templates.PackageTemplate("config"),
-		templates.ConfigStructTemplate(),
+		templates.Package("config"),
+		templates.ConfigStruct(),
 		"%s://%s:%s@%s:%s/%s?sslmode=disable",
 	)
 

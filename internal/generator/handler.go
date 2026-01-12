@@ -9,7 +9,7 @@ import (
 func GenerateHandler() (string, string) {
 	filename := "handler.go"
 
-	template := fmt.Sprintf(
+	content := fmt.Sprintf(
 		`
 		%s
 
@@ -17,10 +17,10 @@ func GenerateHandler() (string, string) {
 		
 		%s
 		`,
-		templates.PackageTemplate("server"),
-		templates.HandlerStructTemplate(),
-		templates.NewHandlerFuncTemplate(),
+		templates.Package("server"),
+		templates.HandlerStruct(),
+		templates.NewHandlerFunc(),
 	)
 
-	return template, filename
+	return content, filename
 }

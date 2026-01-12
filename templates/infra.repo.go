@@ -6,7 +6,7 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func StoreTemplate(name string) string {
+func Store(name string) string {
 	content := fmt.Sprintf(
 		`
 type %sStore struct {
@@ -24,7 +24,11 @@ func New%sRepository(db *db.SQLStore) %sRepository {
 	}
 }
 `,
-		utils.Capitalize(name), utils.Capitalize(name), utils.Capitalize(name), utils.Capitalize(name), name,
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		utils.Capitalize(name),
+		name,
 	)
 
 	return content

@@ -1,6 +1,6 @@
-package generator
+package immutables
 
-func InitDBTemplate() (string, string) {
+func GenerateDBInit() (string, string) {
 	filename := "db.go"
 	template := `
 package db

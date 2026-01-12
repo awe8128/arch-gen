@@ -9,7 +9,7 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func InterfaceMethodTemplate(name string, r map[string]config.Repository) string {
+func InterfaceMethod(name string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
 	for method, fn := range r {
@@ -27,7 +27,7 @@ func InterfaceMethodTemplate(name string, r map[string]config.Repository) string
 
 }
 
-func InterfaceTemplate(name, suffix, domain string, r map[string]config.Repository) string {
+func Interface(name, suffix, domain string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
 	for method, fn := range r {

@@ -6,7 +6,7 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func CreateQueryTemplate(table string, t string, columns string, values string, returns string) string {
+func CreateQuery(table string, t string, columns string, values string, returns string) string {
 
 	fn := "Create" + utils.Capitalize(table)
 	dbTable := table + "s"

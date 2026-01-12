@@ -9,7 +9,7 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-func NewStructTemplate(prefix, name, suffix string, p map[string]config.Property) string {
+func NewStruct(prefix, name, suffix string, p map[string]config.Property) string {
 	b := builder.NewStructBuilder().Name(utils.Capitalize(name), prefix, suffix)
 	for fieldName, prop := range p {
 		b.AddProperties(utils.Capitalize(fieldName), prop.Type, prop.Nullable)
@@ -20,7 +20,7 @@ func NewStructTemplate(prefix, name, suffix string, p map[string]config.Property
 	return template
 }
 
-func UsecaseStructTemplate(name string) string {
+func UsecaseStruct(name string) string {
 	b := builder.NewStructBuilder().Name(name, "", "Usecase")
 
 	b.AddProperties(
@@ -34,7 +34,7 @@ func UsecaseStructTemplate(name string) string {
 	return template
 }
 
-func ControllerStructTemplate(name string) string {
+func ControllerStruct(name string) string {
 	b := builder.NewStructBuilder().Name(name, "", "Controller")
 
 	b.AddProperties(
@@ -48,7 +48,7 @@ func ControllerStructTemplate(name string) string {
 	return template
 }
 
-func HandlerStructTemplate() string {
+func HandlerStruct() string {
 	b := builder.NewStructBuilder().Name("Handler", "", "")
 	for name := range config.GlobalConfig.Domains {
 		b.AddProperties(
@@ -72,7 +72,7 @@ var configs = []string{
 	"DB_HOST",
 }
 
-func ConfigStructTemplate() string {
+func ConfigStruct() string {
 	var fields strings.Builder
 	for _, config := range configs {
 		tag := fmt.Sprintf(`mapstructure:"%s"`, config)

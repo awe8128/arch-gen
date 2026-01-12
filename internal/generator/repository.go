@@ -13,8 +13,8 @@ func GenerateRepository(pkg string, r map[string]config.Repository) (string, str
 
 	%s
 	`,
-		templates.PackageTemplate(pkg),
-		templates.InterfaceTemplate("repository", "", pkg, r),
+		templates.Package(pkg),
+		templates.Interface("repository", "", pkg, r),
 	)
 
 	return content, filename
