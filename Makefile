@@ -1,5 +1,5 @@
 run:
-	go run main.go -c test.yaml
+	go run main.go -c arch.yaml
 
 .PHONY:
 	run
