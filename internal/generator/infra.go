@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/awe8128/arch-gen/config"
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
 // GenerateInfraRepository

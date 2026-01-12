@@ -1,10 +1,14 @@
 package templates
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/awe8128/arch-gen/templates/utils"
+)
 
 func CreateQueryTemplate(table string, t string, columns string, values string, returns string) string {
 
-	fn := "Create" + capitalize(table)
+	fn := "Create" + utils.Capitalize(table)
 	dbTable := table + "s"
 
 	content := fmt.Sprintf(`

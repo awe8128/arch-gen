@@ -1,6 +1,7 @@
 package templates
 
-func NewSqlcYamlTemplate() string {
+func NewSQLCYamlTemplate() string {
+
 	content :=
 		`version: "2"
 sql:

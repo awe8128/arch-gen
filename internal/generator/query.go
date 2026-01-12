@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
 func QueryTemplate(table string, columns map[string]string) (string, string) {

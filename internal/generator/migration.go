@@ -3,7 +3,7 @@ package generator
 import (
 	"strconv"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
 func MigrationTemplate(table string, columns map[string]string, tag int) (string, string) {

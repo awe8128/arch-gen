@@ -1,4 +1,4 @@
-package immutable
+package utils
 
 import (
 	"fmt"
@@ -71,6 +71,13 @@ func GetReturnValues(name string, params map[string]config.Property) string {
 		rStr := r.String()
 		return fmt.Sprintf(`(%s)`, rStr[:len(rStr)-1])
 	} else {
-		return fmt.Sprintf("%s", "*"+capitalize(name))
+		return fmt.Sprintf("%s", "*"+Capitalize(name))
 	}
+}
+
+func Capitalize(s string) string {
+	if s == "" {
+		return s
+	}
+	return strings.ToUpper(s[:1]) + s[1:]
 }

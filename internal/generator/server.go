@@ -3,10 +3,10 @@ package generator
 import (
 	"fmt"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
-func ServerTemplate() (string, string) {
+func GenerateServer() (string, string) {
 	filename := "server.go"
 	template := fmt.Sprintf(
 		`

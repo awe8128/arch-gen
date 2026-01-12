@@ -164,12 +164,12 @@ func Start() {
 	}
 
 	path = filepath.Join(root, "presentation", "server")
-	content, filename = generator.ServerTemplate()
+	content, filename = generator.GenerateServer()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}
 
-	content, filename = generator.HandlerTemplate()
+	content, filename = generator.GenerateHandler()
 	if err := fs.GenerateFile(content, path, filename); err != nil {
 		panic(err)
 	}

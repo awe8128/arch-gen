@@ -3,7 +3,7 @@ package generator
 import (
 	"fmt"
 
-	"github.com/awe8128/arch-gen/shared/templates"
+	"github.com/awe8128/arch-gen/templates"
 )
 
 func ConfigTemplate() (string, string) {

@@ -1,4 +1,4 @@
-package immutable
+package builder
 
 import (
 	"fmt"
@@ -7,16 +7,16 @@ import (
 	"github.com/awe8128/arch-gen/config"
 )
 
-type StructBuilder struct {
+type structBuilder struct {
 	name       string
 	prefix     string
 	suffix     string
 	properties map[string]config.Property
 }
 
-func NewStructBuilder() *StructBuilder {
+func NewStructBuilder() *structBuilder {
 	p := make(map[string]config.Property)
-	return &StructBuilder{
+	return &structBuilder{
 		properties: p,
 	}
 }
@@ -25,7 +25,7 @@ func NewStructBuilder() *StructBuilder {
 typeName's are normal types
 such as string, int, int64, bool etc.
 */
-func (s *StructBuilder) AddProperties(name string, typeName string, nullable bool) *StructBuilder {
+func (s *structBuilder) AddProperties(name string, typeName string, nullable bool) *structBuilder {
 	p := config.Property{
 		Type:     typeName,
 		Nullable: nullable,
@@ -37,7 +37,7 @@ func (s *StructBuilder) AddProperties(name string, typeName string, nullable boo
 	return s
 }
 
-func (s *StructBuilder) Name(name, prefix, suffix string) *StructBuilder {
+func (s *structBuilder) Name(name, prefix, suffix string) *structBuilder {
 
 	s.name = name
 	s.prefix = prefix
@@ -46,7 +46,7 @@ func (s *StructBuilder) Name(name, prefix, suffix string) *StructBuilder {
 	return s
 }
 
-func (s *StructBuilder) Build() string {
+func (s *structBuilder) Build() string {
 	// struct Name
 	structName := s.prefix + s.name + s.suffix
 
@@ -72,16 +72,9 @@ func buildField(properties map[string]config.Property) string {
 		}
 
 		fields.WriteString(
-			fmt.Sprintf("\t%s %s\n", capitalize(fieldName), fieldType),
+			fmt.Sprintf("\t%s %s\n", fieldName, fieldType),
 		)
 	}
 
 	return fields.String()
-}
-
-func capitalize(s string) string {
-	if s == "" {
-		return s
-	}
-	return strings.ToUpper(s[:1]) + s[1:]
 }

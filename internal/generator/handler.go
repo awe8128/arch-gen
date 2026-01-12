@@ -3,11 +3,10 @@ package generator
 import (
 	"fmt"
 
-	"github.com/awe8128/arch-gen/shared/templates"
-	"github.com/awe8128/arch-gen/templates/immutable"
+	"github.com/awe8128/arch-gen/templates"
 )
 
-func HandlerTemplate() (string, string) {
+func GenerateHandler() (string, string) {
 	filename := "handler.go"
 
 	template := fmt.Sprintf(
@@ -19,8 +18,8 @@ func HandlerTemplate() (string, string) {
 		%s
 		`,
 		templates.PackageTemplate("server"),
-		templates.HandlerStruct(),
-		immutable.NewHandlerFuncTemplate(),
+		templates.HandlerStructTemplate(),
+		templates.NewHandlerFuncTemplate(),
 	)
 
 	return template, filename
