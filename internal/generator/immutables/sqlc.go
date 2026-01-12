@@ -1,6 +1,9 @@
 package immutables
 
-func SqlcYamlTemplate() (string, string) {
+import "github.com/awe8128/arch-gen/utils/fs"
+
+func SqlcYamlTemplate(root string) error {
+	path := root
 	filename := "sqlc.yaml"
 
 	content := `
@@ -25,5 +28,8 @@ sql:
           - db_type: "uuid"
             go_type: "github.com/google/uuid.UUID"
 `
-	return content, filename
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+	return nil
 }

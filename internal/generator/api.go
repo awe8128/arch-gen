@@ -1,8 +1,16 @@
 package generator
 
-func NewAPI() (string, string) {
+import (
+	"path/filepath"
+
+	"github.com/awe8128/arch-gen/utils/fs"
+)
+
+func GenerateNewAPI(root string) error {
+	path := filepath.Join(root, "cmd", "api")
+
 	filename := "main.go"
-	template := `
+	content := `
 	package main
 	func main() {
 		ctx := context.Background()
@@ -26,6 +34,8 @@ func NewAPI() (string, string) {
 		server.Run(config.API_PORT)
 	}
 	`
-
-	return template, filename
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+	return nil
 }

@@ -2,14 +2,17 @@ package immutables
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/awe8128/arch-gen/templates"
+	"github.com/awe8128/arch-gen/utils/fs"
 )
 
-func GenerateServer() (string, string) {
+func GenerateServer(root string) error {
+	path := filepath.Join(root, "presentation", "server")
 	filename := "server.go"
 
-	template := fmt.Sprintf(
+	content := fmt.Sprintf(
 		`
 		%s
 
@@ -41,6 +44,9 @@ func GenerateServer() (string, string) {
 		`,
 		templates.Package("server"),
 	)
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
 
-	return template, filename
+	return nil
 }

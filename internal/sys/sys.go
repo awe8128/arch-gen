@@ -17,62 +17,25 @@ func Start() {
 	// root folder
 	root := config.GlobalConfig.Project.Name
 	sys := config.GlobalConfig.Project.Sys
-	// returns folder structure
 
 	// create folder structure
 	fs.Generate(sys)
 
-	// application layer
-	for _, layer := range applicationLayer {
-		path := filepath.Join(root, "application", layer)
-		if err := os.MkdirAll(path, 0o755); err != nil {
-			panic(err)
-		}
-	}
-
-	// infra layer
-	for _, layer := range infrastructureLayer {
-		path := filepath.Join(root, "infra", layer)
-		if err := os.MkdirAll(path, 0o755); err != nil {
-			panic(err)
-		}
-
-	}
-
-	// db layer
-	for _, layer := range DBLayer {
-		path := filepath.Join(root, "infra", "db", layer)
-		if err := os.MkdirAll(path, 0o755); err != nil {
-			panic(err)
-		}
-	}
-
-	// generate sqlc
-	path := filepath.Join(root)
-
-	content, filename := immutables.SqlcYamlTemplate()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	// sqlc yaml config
+	err := immutables.SqlcYamlTemplate(root)
+	if err != nil {
 		panic(err)
 	}
 
-	path = filepath.Join(root, "config")
-	content, filename = immutables.ConfigTemplate()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	// config file
+	err = immutables.ConfigTemplate(root)
+	if err != nil {
 		panic(err)
-	}
-
-	// controller
-	for _, folder := range PresentationLayer {
-		path = filepath.Join(root, "presentation", folder)
-		if err := os.MkdirAll(path, 0o755); err != nil {
-			panic(err)
-		}
 	}
 
 	// domain layer
 	for name, domain := range config.GlobalConfig.Domains {
 		path := filepath.Join(root, "domain", name)
-
 		if err := os.MkdirAll(path, 0o755); err != nil {
 			panic(err)
 		}
@@ -140,8 +103,8 @@ func Start() {
 	tag := 1
 	for table, columns := range config.GlobalConfig.DB {
 
-		path = filepath.Join(root, "infra", "db", "migrations")
-		content, filename = generator.GenerateMigration(table, columns, tag)
+		path := filepath.Join(root, "infra", "db", "migrations")
+		content, filename := generator.GenerateMigration(table, columns, tag)
 		tag++
 
 		if err := fs.GenerateFile(content, path, filename); err != nil {
@@ -156,36 +119,53 @@ func Start() {
 
 	}
 
-	sqlc.RunSQLC()
-
-	path = filepath.Join(root, "infra", "db")
-	content, filename = immutables.GenerateDBInit()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = sqlc.RunSQLC()
+	if err != nil {
 		panic(err)
 	}
 
-	path = filepath.Join(root, "presentation", "server")
-	content, filename = immutables.GenerateServer()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = immutables.GenerateDBInit(root)
+	if err != nil {
 		panic(err)
 	}
 
-	content, filename = generator.GenerateHandler()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = immutables.GenerateServer(root)
+	if err != nil {
 		panic(err)
 	}
 
-	content, filename = generator.NewRouter()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = generator.GenerateHandler(root)
+	if err != nil {
 		panic(err)
 	}
 
-	path = filepath.Join(root, "cmd", "api")
-	if err := os.MkdirAll(path, 0o755); err != nil {
+	err = generator.GenerateRouter(root)
+	if err != nil {
 		panic(err)
 	}
-	content, filename = generator.NewAPI()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+
+	err = generator.GenerateNewAPI(root)
+	if err != nil {
+		panic(err)
+	}
+
+	err = immutables.OpenAPI(root)
+	if err != nil {
+		panic(err)
+	}
+
+	err = immutables.Makefile(root)
+	if err != nil {
+		panic(err)
+	}
+
+	err = immutables.GenerateLogx(root)
+	if err != nil {
+		panic(err)
+	}
+
+	err = immutables.GenerateMiddleware(root)
+	if err != nil {
 		panic(err)
 	}
 

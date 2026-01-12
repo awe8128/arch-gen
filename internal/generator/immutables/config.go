@@ -2,14 +2,17 @@ package immutables
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/awe8128/arch-gen/templates"
+	"github.com/awe8128/arch-gen/utils/fs"
 )
 
-func ConfigTemplate() (string, string) {
+func ConfigTemplate(root string) error {
+	path := filepath.Join(root, "config")
 	filename := "config.go"
 
-	template := fmt.Sprintf(`
+	content := fmt.Sprintf(`
 	%s
 	%s
 
@@ -68,6 +71,8 @@ func ConfigTemplate() (string, string) {
 		templates.ConfigStruct(),
 		"%s://%s:%s@%s:%s/%s?sslmode=disable",
 	)
-
-	return template, filename
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+	return nil
 }

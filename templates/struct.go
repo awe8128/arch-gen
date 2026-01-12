@@ -71,6 +71,7 @@ var configs = []string{
 	"DB_PORT",
 	"DB_HOST",
 	"API_PORT",
+	"LOGGER_LEVEL",
 }
 
 func ConfigStruct() string {
