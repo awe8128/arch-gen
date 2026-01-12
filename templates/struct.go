@@ -70,6 +70,7 @@ var configs = []string{
 	"DB_PASSWORD",
 	"DB_PORT",
 	"DB_HOST",
+	"API_PORT",
 }
 
 func ConfigStruct() string {
