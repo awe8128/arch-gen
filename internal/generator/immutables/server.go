@@ -25,7 +25,7 @@ func GenerateServer() (string, string) {
 			handler: handler,
 		}
 
-		// server.NewRoute()
+		server.NewRoute()
 
 		return server, nil
 	}
