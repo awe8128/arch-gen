@@ -36,7 +36,6 @@ func Start() {
 	// domain layer
 	for name, domain := range config.GlobalConfig.Domains {
 		path := filepath.Join(root, "domain", name)
-
 		if err := os.MkdirAll(path, 0o755); err != nil {
 			panic(err)
 		}
@@ -120,46 +119,43 @@ func Start() {
 
 	}
 
-	sqlc.RunSQLC()
-
-	path := filepath.Join(root, "infra", "db")
-	content, filename := immutables.GenerateDBInit()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = sqlc.RunSQLC()
+	if err != nil {
 		panic(err)
 	}
 
-	path = filepath.Join(root, "presentation", "server")
-	content, filename = immutables.GenerateServer()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = immutables.GenerateDBInit(root)
+	if err != nil {
 		panic(err)
 	}
 
-	content, filename = generator.GenerateHandler()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = immutables.GenerateServer(root)
+	if err != nil {
 		panic(err)
 	}
 
-	content, filename = generator.NewRouter()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = generator.GenerateHandler(root)
+	if err != nil {
 		panic(err)
 	}
 
-	path = filepath.Join(root, "cmd", "api")
-	if err := os.MkdirAll(path, 0o755); err != nil {
-		panic(err)
-	}
-	content, filename = generator.NewAPI()
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = generator.GenerateRouter(root)
+	if err != nil {
 		panic(err)
 	}
 
-	path, filename, content = immutables.OpenAPI(root)
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = generator.GenerateNewAPI(root)
+	if err != nil {
 		panic(err)
 	}
 
-	path, filename, content = immutables.Makefile(root)
-	if err := fs.GenerateFile(content, path, filename); err != nil {
+	err = immutables.OpenAPI(root)
+	if err != nil {
+		panic(err)
+	}
+
+	err = immutables.Makefile(root)
+	if err != nil {
 		panic(err)
 	}
 

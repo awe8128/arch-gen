@@ -16,19 +16,19 @@ func Generate(systemDesign string) {
 	}
 }
 
-var layers = []string{
-	"domain",
-	"application",
-	"cmd",
-	"di",
-	"infra",
-	"internal",
-	"config",
-	"openapi",
-	"presentation",
-}
-
 var (
+	layers = []string{
+		"domain",
+		"application",
+		"cmd",
+		"di",
+		"infra",
+		"internal",
+		"config",
+		"openapi",
+		"presentation",
+	}
+
 	openapiLayers = []string{
 		"components",
 		"paths",
@@ -63,6 +63,11 @@ var (
 		"controller",
 		"openapi",
 		"server",
+	}
+
+	cmdLayer = []string{
+		"api",
+		"migrate",
 	}
 )
 
@@ -130,6 +135,13 @@ func DDD() {
 
 	for _, folder := range PresentationLayer {
 		path := filepath.Join(root, "presentation", folder)
+		if err := os.MkdirAll(path, 0o755); err != nil {
+			panic(err)
+		}
+	}
+
+	for _, folder := range cmdLayer {
+		path := filepath.Join(root, "cmd", folder)
 		if err := os.MkdirAll(path, 0o755); err != nil {
 			panic(err)
 		}

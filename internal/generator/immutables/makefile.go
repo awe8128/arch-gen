@@ -1,8 +1,12 @@
 package immutables
 
-import "path/filepath"
+import (
+	"path/filepath"
 
-func Makefile(root string) (string, string, string) {
+	"github.com/awe8128/arch-gen/utils/fs"
+)
+
+func Makefile(root string) error {
 
 	path := filepath.Join(root)
 	filename := "Makefile"
@@ -22,6 +26,8 @@ sqlc: ## generate sqlc code
 
 .PHONY: all
 `
-
-	return path, filename, content
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+	return nil
 }

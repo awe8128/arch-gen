@@ -2,11 +2,16 @@ package generator
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/awe8128/arch-gen/templates"
+	"github.com/awe8128/arch-gen/utils/fs"
 )
 
-func GenerateHandler() (string, string) {
+func GenerateHandler(root string) error {
+
+	path := filepath.Join(root, "presentation", "server")
+
 	filename := "handler.go"
 
 	content := fmt.Sprintf(
@@ -22,5 +27,9 @@ func GenerateHandler() (string, string) {
 		templates.NewHandlerFunc(),
 	)
 
-	return content, filename
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+
+	return nil
 }

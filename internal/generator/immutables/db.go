@@ -1,8 +1,15 @@
 package immutables
 
-func GenerateDBInit() (string, string) {
+import (
+	"path/filepath"
+
+	"github.com/awe8128/arch-gen/utils/fs"
+)
+
+func GenerateDBInit(root string) error {
+	path := filepath.Join(root, "infra", "db")
 	filename := "db.go"
-	template := `
+	content := `
 package db
 
 import (
@@ -28,5 +35,8 @@ store := NewStore(conn)
 
 return store, nil
 }`
-	return template, filename
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+	return nil
 }

@@ -1,8 +1,12 @@
 package immutables
 
-import "path/filepath"
+import (
+	"path/filepath"
 
-func OpenAPI(root string) (string, string, string) {
+	"github.com/awe8128/arch-gen/utils/fs"
+)
+
+func OpenAPI(root string) error {
 	path := filepath.Join(root, "openapi")
 	filename := "config.yaml"
 	content := `package: openapi
@@ -13,5 +17,10 @@ generate:
   embedded-spec: true
 output: ./be/presentation/openapi/openapi.gen.go
 	`
-	return path, filename, content
+
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+
+	return nil
 }
