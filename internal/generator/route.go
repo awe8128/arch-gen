@@ -17,11 +17,11 @@ func NewRouter() (string, string) {
 		// metrics.Init()
 		router := gin.New()
 
-		// logger := logx.New(s.config.LOGGER_LEVEL)
+		logger := logx.New(s.config.LOGGER_LEVEL)
 
 		router.Use(gin.Recovery())
-		// router.Use(middleware.LoggingMiddleware(logger))
-		// router.Use(middleware.CORSMiddleware())
+		router.Use(middleware.LoggingMiddleware(logger))
+		router.Use(middleware.CORSMiddleware())
 		// router.Use(metrics.MetricsMiddleware())
 
 		// _, err := schema.GetSwagger()
