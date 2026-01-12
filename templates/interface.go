@@ -9,7 +9,6 @@ import (
 	"github.com/awe8128/arch-gen/templates/utils"
 )
 
-// ()
 func InterfaceMethodTemplate(name string, r map[string]config.Repository) string {
 	var fields strings.Builder
 
