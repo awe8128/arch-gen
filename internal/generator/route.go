@@ -2,26 +2,29 @@ package generator
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/awe8128/arch-gen/templates"
+	"github.com/awe8128/arch-gen/utils/fs"
 )
 
-func NewRouter() (string, string) {
+func GenerateRouter(root string) error {
+	path := filepath.Join(root, "presentation", "server")
 
 	filename := "router.go"
 
-	template := fmt.Sprintf(`
+	content := fmt.Sprintf(`
 	%s
 
 	func (s *Server) NewRoute() {
 		// metrics.Init()
 		router := gin.New()
 
-		// logger := logx.New(s.config.LOGGER_LEVEL)
+		logger := logx.New(s.config.LOGGER_LEVEL)
 
 		router.Use(gin.Recovery())
-		// router.Use(middleware.LoggingMiddleware(logger))
-		// router.Use(middleware.CORSMiddleware())
+		router.Use(middleware.LoggingMiddleware(logger))
+		router.Use(middleware.CORSMiddleware())
 		// router.Use(metrics.MetricsMiddleware())
 
 		// _, err := schema.GetSwagger()
@@ -46,5 +49,8 @@ func NewRouter() (string, string) {
 
 	`, templates.Package("server"))
 
-	return template, filename
+	if err := fs.GenerateFile(content, path, filename); err != nil {
+		return err
+	}
+	return nil
 }
